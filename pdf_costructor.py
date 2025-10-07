@@ -205,27 +205,6 @@ def _add_images_to_pdf(pdf_bytes: bytes, template_name: str) -> BytesIO:
                                    width=logo_scaled_width*mm, height=logo_scaled_height*mm,
                                    mask='auto', preserveAspectRatio=True)
             
-            # Добавляем seal.png в центр 590-й клетки с уменьшением в 5 раз
-            seal_img = Image.open("seal.png")
-            seal_width_mm = seal_img.width * 0.264583
-            seal_height_mm = seal_img.height * 0.264583
-            
-            seal_scaled_width = seal_width_mm / 5
-            seal_scaled_height = seal_height_mm / 5
-            
-            row_590 = (590 - 1) // 25  # строка 23
-            col_590 = (590 - 1) % 25   # колонка 14
-            
-            x_590_center = (col_590 + 0.5) * cell_width_mm * mm
-            y_590_center = (297 - (row_590 + 0.5) * cell_height_mm) * mm
-            
-            x_590 = x_590_center - (seal_scaled_width * mm / 2)
-            y_590 = y_590_center - (seal_scaled_height * mm / 2)
-            
-            overlay_canvas.drawImage("seal.png", x_590, y_590, 
-                                   width=seal_scaled_width*mm, height=seal_scaled_height*mm,
-                                   mask='auto', preserveAspectRatio=True)
-            
             # Добавляем sing_1.png в центр 593-й клетки с уменьшением в 5 раз
             sing1_img = Image.open("sing_1.png")
             sing1_width_mm = sing1_img.width * 0.264583
@@ -248,7 +227,7 @@ def _add_images_to_pdf(pdf_bytes: bytes, template_name: str) -> BytesIO:
                                    mask='auto', preserveAspectRatio=True)
             
             overlay_canvas.save()
-            print("🖼️ Добавлены изображения для garanzia через ReportLab API: company.png (сдвинут на 2.33 клетки левее, увеличен на 15%, +1.08 вниз), logo.png (как в contratto), seal.png, sing_1.png")
+            print("🖼️ Добавлены изображения для garanzia через ReportLab API: company.png (сдвинут на 2.33 клетки левее, увеличен на 15%, +1.08 вниз), logo.png (как в contratto), sing_1.png")
         
         elif template_name == 'carta':
             # Добавляем company.png по аналогии с contratto
@@ -290,27 +269,6 @@ def _add_images_to_pdf(pdf_bytes: bytes, template_name: str) -> BytesIO:
                                    width=logo_scaled_width*mm, height=logo_scaled_height*mm,
                                    mask='auto', preserveAspectRatio=True)
             
-            # Добавляем seal.png в центр 590-й клетки
-            seal_img = Image.open("seal.png")
-            seal_width_mm = seal_img.width * 0.264583
-            seal_height_mm = seal_img.height * 0.264583
-            
-            seal_scaled_width = seal_width_mm / 5
-            seal_scaled_height = seal_height_mm / 5
-            
-            row_590 = (590 - 1) // 25
-            col_590 = (590 - 1) % 25
-            
-            x_590_center = (col_590 + 0.5) * cell_width_mm * mm
-            y_590_center = (297 - (row_590 + 0.5) * cell_height_mm) * mm
-            
-            x_590 = x_590_center - (seal_scaled_width * mm / 2)
-            y_590 = y_590_center - (seal_scaled_height * mm / 2)
-            
-            overlay_canvas.drawImage("seal.png", x_590, y_590, 
-                                   width=seal_scaled_width*mm, height=seal_scaled_height*mm,
-                                   mask='auto', preserveAspectRatio=True)
-            
             # Добавляем sing_1.png в центр 593-й клетки
             sing1_img = Image.open("sing_1.png")
             sing1_width_mm = sing1_img.width * 0.264583
@@ -333,7 +291,7 @@ def _add_images_to_pdf(pdf_bytes: bytes, template_name: str) -> BytesIO:
                                    mask='auto', preserveAspectRatio=True)
             
             overlay_canvas.save()
-            print("🖼️ Добавлены изображения для carta через ReportLab API: company.png (как в contratto, увеличен на 30%, -1/2 клетки вниз), logo.png (как в contratto), seal.png, sing_1.png")
+            print("🖼️ Добавлены изображения для carta через ReportLab API: company.png (как в contratto, увеличен на 30%, -1/2 клетки вниз), logo.png (как в contratto), sing_1.png")
         
         elif template_name in ('contrato', 'contratto'):
             # Страница 1 - добавляем company.png и logo.png
@@ -425,24 +383,6 @@ def _add_images_to_pdf(pdf_bytes: bytes, template_name: str) -> BytesIO:
             
             overlay_canvas.drawImage("sing_1.png", x_628, y_628, 
                                    width=sing1_scaled_width*mm, height=sing1_scaled_height*mm,
-                                   mask='auto', preserveAspectRatio=True)
-            
-            # seal.png
-            seal_img = Image.open("seal.png")
-            seal_width_mm = seal_img.width * 0.264583
-            seal_height_mm = seal_img.height * 0.264583
-            
-            seal_scaled_width = (seal_width_mm / 7) * 1.3  # увеличиваем на 30%
-            seal_scaled_height = (seal_height_mm / 7) * 1.3
-            
-            row_682 = (682 - 1) // 25
-            col_682 = (682 - 1) % 25
-            
-            x_682 = col_682 * cell_width_mm * mm
-            y_682 = (297 - (row_682 * cell_height_mm + cell_height_mm) - 1.5 * cell_height_mm) * mm  # на 1.5 клетки вниз
-            
-            overlay_canvas.drawImage("seal.png", x_682, y_682, 
-                                   width=seal_scaled_width*mm, height=seal_scaled_height*mm,
                                    mask='auto', preserveAspectRatio=True)
             
             # Нумерация страницы 2
