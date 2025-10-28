@@ -92,12 +92,7 @@ async def ask_name(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         return await start(update, context)
     context.user_data['name'] = name
 
-    # Для approvazione сразу запрашиваем TAN
-    if dt == '/approvazione':
-        await update.message.reply_text(f"Inserisci TAN (%), enter per {DEFAULT_TAN}%:")
-        return ASK_TAN
-
-    # Для других документов запрашиваем amount
+    # Для всех документов кроме garanzia запрашиваем amount
     await update.message.reply_text("Inserisci importo (€):")
     return ASK_AMOUNT
 
@@ -111,12 +106,7 @@ async def ask_amount(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 
     dt = context.user_data['doc_type']
 
-    # Для approvazione сразу запрашиваем TAN
-    if dt == '/approvazione':
-        await update.message.reply_text(f"Inserisci TAN (%), enter per {DEFAULT_TAN}%:")
-        return ASK_TAN
-
-    # Для других документов запрашиваем duration
+    # Для всех документов запрашиваем duration
     await update.message.reply_text("Inserisci durata (mes):")
     return ASK_DURATION
 
@@ -127,6 +117,15 @@ async def ask_duration(update: Update, context: ContextTypes.DEFAULT_TYPE) -> in
         await update.message.reply_text("Durata non valida, riprova:")
         return ASK_DURATION
     context.user_data['duration'] = mn
+
+    dt = context.user_data['doc_type']
+
+    # Для approvazione сразу запрашиваем TAN (duration не нужен)
+    if dt == '/approvazione':
+        await update.message.reply_text(f"Inserisci TAN (%), enter per {DEFAULT_TAN}%:")
+        return ASK_TAN
+
+    # Для других документов запрашиваем TAN
     await update.message.reply_text(f"Inserisci TAN (%), enter per {DEFAULT_TAN}%:")
     return ASK_TAN
 
