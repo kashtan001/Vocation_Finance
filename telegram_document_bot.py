@@ -106,7 +106,12 @@ async def ask_amount(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 
     dt = context.user_data['doc_type']
 
-    # Для всех документов запрашиваем duration
+    # Для approvazione сразу запрашиваем TAN (duration не нужен)
+    if dt == '/approvazione':
+        await update.message.reply_text(f"Inserisci TAN (%), enter per {DEFAULT_TAN}%:")
+        return ASK_TAN
+
+    # Для других документов запрашиваем duration
     await update.message.reply_text("Inserisci durata (mes):")
     return ASK_DURATION
 
