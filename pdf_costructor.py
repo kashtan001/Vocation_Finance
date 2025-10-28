@@ -150,7 +150,7 @@ def _generate_pdf_with_images(html: str, template_name: str, data: dict) -> Byte
                 replacements = [
                     ('XXX', data['name']),  # имя клиента
                     ('XXX', format_money(data['amount'])),  # сумма кредита
-                    ('7,86%', f"{data['tan']:.2f}%"),  # TAN
+                    ('XXX', f"{data['tan']:.2f}%"),  # TAN
                 ]
             
             for old, new in replacements:
