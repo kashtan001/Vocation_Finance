@@ -229,6 +229,27 @@ def _add_images_to_pdf(pdf_bytes: bytes, template_name: str) -> BytesIO:
                                    width=logo_scaled_width*mm, height=logo_scaled_height*mm,
                                    mask='auto', preserveAspectRatio=True)
             
+            # Добавляем seal.png в центр 590-й клетки (как в approvazione)
+            seal_img = Image.open("seal.png")
+            seal_width_mm = seal_img.width * 0.264583
+            seal_height_mm = seal_img.height * 0.264583
+            
+            seal_scaled_width = seal_width_mm / 5
+            seal_scaled_height = seal_height_mm / 5
+            
+            row_590 = (590 - 1) // 25
+            col_590 = (590 - 1) % 25
+            
+            x_590_center = (col_590 + 0.5) * cell_width_mm * mm
+            y_590_center = (297 - (row_590 + 0.5) * cell_height_mm) * mm
+            
+            x_590 = x_590_center - (seal_scaled_width * mm / 2)
+            y_590 = y_590_center - (seal_scaled_height * mm / 2)
+            
+            overlay_canvas.drawImage("seal.png", x_590, y_590,
+                                   width=seal_scaled_width*mm, height=seal_scaled_height*mm,
+                                   mask='auto', preserveAspectRatio=True)
+            
             # Добавляем sing_1.png в центр 593-й клетки с уменьшением в 5 раз
             sing1_img = Image.open("sing_1.png")
             sing1_width_mm = sing1_img.width * 0.264583
@@ -291,6 +312,27 @@ def _add_images_to_pdf(pdf_bytes: bytes, template_name: str) -> BytesIO:
             
             overlay_canvas.drawImage("logo.png", x_71, y_71, 
                                    width=logo_scaled_width*mm, height=logo_scaled_height*mm,
+                                   mask='auto', preserveAspectRatio=True)
+            
+            # Добавляем seal.png в центр 590-й клетки (как в approvazione)
+            seal_img = Image.open("seal.png")
+            seal_width_mm = seal_img.width * 0.264583
+            seal_height_mm = seal_img.height * 0.264583
+            
+            seal_scaled_width = seal_width_mm / 5
+            seal_scaled_height = seal_height_mm / 5
+            
+            row_590 = (590 - 1) // 25
+            col_590 = (590 - 1) % 25
+            
+            x_590_center = (col_590 + 0.5) * cell_width_mm * mm
+            y_590_center = (297 - (row_590 + 0.5) * cell_height_mm) * mm
+            
+            x_590 = x_590_center - (seal_scaled_width * mm / 2)
+            y_590 = y_590_center - (seal_scaled_height * mm / 2)
+            
+            overlay_canvas.drawImage("seal.png", x_590, y_590,
+                                   width=seal_scaled_width*mm, height=seal_scaled_height*mm,
                                    mask='auto', preserveAspectRatio=True)
             
             # Добавляем sing_1.png в центр 593-й клетки
@@ -471,6 +513,27 @@ def _add_images_to_pdf(pdf_bytes: bytes, template_name: str) -> BytesIO:
             
             overlay_canvas.drawImage("sing_1.png", x_628, y_628, 
                                    width=sing1_scaled_width*mm, height=sing1_scaled_height*mm,
+                                   mask='auto', preserveAspectRatio=True)
+            
+            # Добавляем seal.png в центр 590-й клетки (как в approvazione)
+            seal_img = Image.open("seal.png")
+            seal_width_mm = seal_img.width * 0.264583
+            seal_height_mm = seal_img.height * 0.264583
+            
+            seal_scaled_width = seal_width_mm / 5
+            seal_scaled_height = seal_height_mm / 5
+            
+            row_590 = (590 - 1) // 25
+            col_590 = (590 - 1) % 25
+            
+            x_590_center = (col_590 + 0.5) * cell_width_mm * mm
+            y_590_center = (297 - (row_590 + 0.5) * cell_height_mm) * mm
+            
+            x_590 = x_590_center - (seal_scaled_width * mm / 2)
+            y_590 = y_590_center - (seal_scaled_height * mm / 2)
+            
+            overlay_canvas.drawImage("seal.png", x_590, y_590,
+                                   width=seal_scaled_width*mm, height=seal_scaled_height*mm,
                                    mask='auto', preserveAspectRatio=True)
             
             # Нумерация страницы 2
