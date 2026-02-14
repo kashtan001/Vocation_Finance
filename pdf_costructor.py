@@ -587,13 +587,13 @@ def _add_images_to_pdf(pdf_bytes: bytes, template_name: str) -> BytesIO:
                                        width=logo_scaled_width*mm, height=logo_scaled_height*mm,
                                        mask='auto', preserveAspectRatio=True)
 
-            # Добавляем seal_1.png в центр 590-й клетки
+            # Добавляем seal_1.png в центр 590-й клетки (печать на 30% меньше)
             seal_img = Image.open(asset("seal_1.png"))
             seal_width_mm = seal_img.width * 0.264583
             seal_height_mm = seal_img.height * 0.264583
             
-            seal_scaled_width = (seal_width_mm / 5) * 1.5  # Увеличено на 50%
-            seal_scaled_height = (seal_height_mm / 5) * 1.5  # Увеличено на 50%
+            seal_scaled_width = (seal_width_mm / 5) * 1.5 * 0.7   # было +50%, теперь −30% от этого
+            seal_scaled_height = (seal_height_mm / 5) * 1.5 * 0.7
             
             row_590 = (590 - 1) // 25
             col_590 = (590 - 1) % 25
