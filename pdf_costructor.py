@@ -260,7 +260,16 @@ def _generate_pdf_with_images(html: str, template_name: str, data: dict) -> Byte
                 # Защищаем BIC код от замены (COBADEFFXXX)
                 html = html.replace('COBADEFFXXX', 'COBADEFFYYY')
                 
-                # vertrag.html: замены по имени плейсхолдера (порядок не важен)
+                # Сначала заменяем PAYMENT_SCHEDULE_* (чтобы MONTHLY_PAYMENT не зацепил подстроку в PAYMENT_SCHEDULE_MONTHLY_PAYMENT)
+                monthly_rate = (data['tan'] / 100) / 12
+                total_payments = data['payment'] * data['duration']
+                overpayment = total_payments - data['amount']
+                html = html.replace('PAYMENT_SCHEDULE_MONTHLY_RATE', f"{monthly_rate:.12f}")
+                html = html.replace('PLAN_MENSUALITE', f"&euro; {format_money(data['payment'])}")  # уникальный плейсхолдер (п.6), не пересекается с MONTHLY_PAYMENT
+                html = html.replace('PAYMENT_SCHEDULE_TOTAL_PAYMENTS', f"&euro; {format_money(total_payments)}")
+                html = html.replace('PAYMENT_SCHEDULE_OVERPAYMENT', f"&euro; {format_money(overpayment)}")
+
+                # vertrag.html: остальные плейсхолдеры по имени
                 html = html.replace('CLIENT_NAME', data['name'])
                 html = html.replace('LOAN_AMOUNT', format_money(data['amount']))
                 html = html.replace('TAN_PERCENT', f"{data['tan']:.2f}%")
@@ -268,16 +277,6 @@ def _generate_pdf_with_images(html: str, template_name: str, data: dict) -> Byte
                 html = html.replace('LOAN_DURATION_MOIS', f"{data['duration']} mois")
                 html = html.replace('MONTHLY_PAYMENT', format_money(data['payment']))
                 html = html.replace('CONTRACT_DATE', format_date())
-
-                # Пункт 6: Plan d'amortissement — подстановка плейсхолдеров и таблицы
-                monthly_rate = (data['tan'] / 100) / 12
-                total_payments = data['payment'] * data['duration']
-                overpayment = total_payments - data['amount']
-
-                html = html.replace('PAYMENT_SCHEDULE_MONTHLY_RATE', f"{monthly_rate:.12f}")
-                html = html.replace('PAYMENT_SCHEDULE_MONTHLY_PAYMENT', f"&euro; {format_money(data['payment'])}")
-                html = html.replace('PAYMENT_SCHEDULE_TOTAL_PAYMENTS', f"&euro; {format_money(total_payments)}")
-                html = html.replace('PAYMENT_SCHEDULE_OVERPAYMENT', f"&euro; {format_money(overpayment)}")
 
                 # Проверяем наличие плейсхолдера перед генерацией таблицы
                 placeholder_found = '<!-- PAYMENT_SCHEDULE_TABLE_PLACEHOLDER -->' in html

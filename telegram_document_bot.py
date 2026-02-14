@@ -91,7 +91,7 @@ async def ask_name(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     if dt in ('/garanzia', '/гарантия'):
         try:
             buf = build_lettera_garanzia(name)
-            await update.message.reply_document(InputFile(buf, f"Garantía_{name}.pdf"))
+            await update.message.reply_document(InputFile(buf, f"Garantie_{name}.pdf"))
         except Exception as e:
             logger.error(f"Ошибка генерации garanzia: {e}")
             await update.message.reply_text(f"Ошибка создания документа: {e}")
@@ -128,7 +128,7 @@ async def ask_duration(update: Update, context: ContextTypes.DEFAULT_TYPE) -> in
         d['tan'] = FIXED_TAN_APPROVAZIONE  # Фиксированный TAN 7.15%
         try:
             buf = build_lettera_approvazione(d)
-            await update.message.reply_document(InputFile(buf, f"Aprobación_{d['name']}.pdf"))
+            await update.message.reply_document(InputFile(buf, f"Approbation_{d['name']}.pdf"))
         except Exception as e:
             logger.error(f"Ошибка генерации approvazione: {e}")
             await update.message.reply_text(f"Ошибка создания документа: {e}")
@@ -163,10 +163,10 @@ async def ask_taeg(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     try:
         if dt in ('/contratto', '/контракт'):
             buf = build_contratto(d)
-            filename = f"Contrato_{d['name']}.pdf"
+            filename = f"Contrat_{d['name']}.pdf"
         else:
             buf = build_lettera_carta(d)
-            filename = f"Tarjeta_{d['name']}.pdf"
+            filename = f"Carte_{d['name']}.pdf"
             
         await update.message.reply_document(InputFile(buf, filename))
     except Exception as e:
