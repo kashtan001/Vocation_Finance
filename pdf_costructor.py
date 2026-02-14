@@ -760,7 +760,7 @@ def fix_html_layout(template_name='contratto'):
     @page {
         size: A4;
         margin: 1cm;           /* 1cm отступ от края страницы до текста */
-        border: 4pt solid #6aa84f;  /* Зеленая рамка вокруг текста */
+        border: 4pt solid #7f6000;  /* Зеленая рамка вокруг текста */
         padding: 0;            /* Никаких дополнительных отступов */
     }
     
@@ -795,7 +795,7 @@ def fix_html_layout(template_name='contratto'):
     @page {
         size: A4;
         margin: 1cm;  /* Отступ как в garanzia */
-        border: 2pt solid #6aa84f;  /* Зеленая рамка (на 2pt тоньше чем garantia) */
+        border: 2pt solid #7f6000;  /* Зеленая рамка (на 2pt тоньше чем garantia) */
         padding: 0;  /* Отступ как в garanzia */
     }
     
@@ -927,7 +927,7 @@ def fix_html_layout(template_name='contratto'):
     @page {
         size: A4;
         margin: 1cm;  /* Отступ как в garanzia */
-        border: 4pt solid #6aa84f;  /* Зеленая рамка как в garantia (4pt) */
+        border: 4pt solid #7f6000;  /* Зеленая рамка как в garantia (4pt) */
         padding: 0;  /* Отступ как в garanzia */
     }
     
@@ -1257,7 +1257,7 @@ def fix_html_layout(template_name='contratto'):
         if fixed_heights:
             print(f"📏 Исправлены огромные высоты: {', '.join(fixed_heights)}")
         
-        # 2. НАХОДИМ И УБИРАЕМ СТАРЫЕ РАМКИ #a52b4c и #5985db (встроенные из HTML, удаляем чтобы использовать @page рамку #6aa84f)
+        # 2. НАХОДИМ И УБИРАЕМ СТАРЫЕ РАМКИ #a52b4c и #5985db (встроенные из HTML, удаляем чтобы использовать @page рамку #7f6000)
         # Это нужно чтобы избежать двойных рамок с @page
         border_pattern = r'\.([a-zA-Z0-9_-]+)\{[^}]*border[^}]*#(?:a52b4c|5985db)[^}]*\}'
         border_matches = re.findall(border_pattern, html_content, re.IGNORECASE)
