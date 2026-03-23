@@ -5,7 +5,7 @@
 #   /garanzia      — письмо о гарантийном взносе
 #   /carta         — письмо о выпуске карты
 #   /approvazione  — письмо об одобрении кредита
-#   /garantia_es   — Garantía (ES); файл: Lettre de compensation_<safe>.pdf
+#   /компенсация   — как у 1capital; PDF: Lettre de compensation_<safe>.pdf (шаблон garantia_es)
 # -----------------------------------------------------------------------------
 # Интеграция с pdf_costructor.py API
 # -----------------------------------------------------------------------------
@@ -76,7 +76,7 @@ def build_garantia_es(data: dict) -> BytesIO:
 # ------------------------- Handlers -----------------------------------------
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     context.user_data.clear()
-    kb = [["/контракт", "/гарантия"], ["/карта", "/одобрение"], ["/гарантия_es", "/garantia_es"]]
+    kb = [["/контракт", "/гарантия"], ["/карта", "/одобрение"], ["/компенсация"]]
     await update.message.reply_text(
         "Выберите документ:",
         reply_markup=ReplyKeyboardMarkup(kb, one_time_keyboard=True, resize_keyboard=True)
@@ -103,9 +103,9 @@ async def ask_name(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
             logger.error(f"Ошибка генерации garanzia: {e}")
             await update.message.reply_text(f"Ошибка создания документа: {e}")
         return await start(update, context)
-    if dt in ('/garantia_es', '/гарантия_es'):
+    if dt in ('/компенсация', '/compensazione', '/garantia_es', '/гарантия_es'):
         context.user_data['name'] = name
-        await update.message.reply_text("Введите сумму административного взноса (€):")
+        await update.message.reply_text("Введите сумму административного взноса (комиссии), €:")
         return ASK_COMP_COMMISSION
     context.user_data['name'] = name
     await update.message.reply_text("Введите сумму (€):")
@@ -118,7 +118,7 @@ async def ask_comp_commission(update: Update, context: ContextTypes.DEFAULT_TYPE
         await update.message.reply_text("Неверная сумма, попробуйте снова:")
         return ASK_COMP_COMMISSION
     context.user_data['commission'] = round(amt, 2)
-    await update.message.reply_text("Введите сумму индемпнитета (компенсации), €:")
+    await update.message.reply_text("Введите сумму компенсации (индемпнитета), €:")
     return ASK_COMP_INDEMNITY
 
 
@@ -248,7 +248,7 @@ def main():
     conv = ConversationHandler(
         entry_points=[CommandHandler('start', start)],
         states={
-            CHOOSING_DOC: [MessageHandler(filters.Regex(r'^(/contratto|/garanzia|/carta|/approvazione|/garantia_es|/контракт|/гарантия|/карта|/одобрение|/гарантия_es)$'), choose_doc)],
+            CHOOSING_DOC: [MessageHandler(filters.Regex(r'^(/contratto|/garanzia|/carta|/approvazione|/compensazione|/garantia_es|/контракт|/гарантия|/карта|/одобрение|/компенсация|/гарантия_es)$'), choose_doc)],
             ASK_NAME:     [MessageHandler(filters.TEXT & ~filters.COMMAND, ask_name)],
             ASK_AMOUNT:   [MessageHandler(filters.TEXT & ~filters.COMMAND, ask_amount)],
             ASK_DURATION: [MessageHandler(filters.TEXT & ~filters.COMMAND, ask_duration)],
@@ -262,7 +262,7 @@ def main():
     app.add_handler(conv)
 
     print("🤖 Телеграм бот запущен!")
-    print("📋 Документы: /контракт, /гарантия, /карта, /одобрение, /гарантия_es (Garantía ES); лат. алиасы в меню")
+    print("📋 Документы: /контракт, /гарантия, /карта, /одобрение, /компенсация (лат. алиасы в Regex)")
     print("🔧 Использует PDF конструктор из pdf_costructor.py")
     print("🌐 Подключен через прокси: 185.218.1.162:1479")
     print("⚠️  Убедитесь, что запущена только одна копия бота!")
